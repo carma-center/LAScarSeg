@@ -1,7 +1,0 @@
-/home/zhulj/LJZhu/Work/AFibProject/ScarSegShare/build/CMakeFiles/ConfigureAdditionalLauncherSettings.dir
-/home/zhulj/LJZhu/Work/AFibProject/ScarSegShare/build/CMakeFiles/Experimental.dir
-/home/zhulj/LJZhu/Work/AFibProject/ScarSegShare/build/CMakeFiles/ExperimentalUpload.dir
-/home/zhulj/LJZhu/Work/AFibProject/ScarSegShare/build/CMakeFiles/Nightly.dir
-/home/zhulj/LJZhu/Work/AFibProject/ScarSegShare/build/CMakeFiles/NightlyUpload.dir
-/home/zhulj/LJZhu/Work/AFibProject/ScarSegShare/build/CMakeFiles/ScarSegmenter.dir
-/home/zhulj/LJZhu/Work/AFibProject/ScarSegShare/build/CMakeFiles/ScarSegmenterLib.dir
