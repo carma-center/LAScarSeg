@@ -1,0 +1,6 @@
+# Target labels
+ ScarSegmenter
+# Source files and their labels
+/home/zhulj/LJZhu/Work/AFibProject/ScarSegShare/build/ScarSegmenterCLP.h
+/home/zhulj/LJZhu/Work/AFibProject/ScarSegShare/src/ScarSegmenter.cxx
+/home/zhulj/LJZhu/Work/AFibProject/ScarSegShare/build/ScarSegmenterCLP.h.rule

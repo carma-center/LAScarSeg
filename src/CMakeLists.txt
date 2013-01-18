@@ -1,59 +1,139 @@
-cmake_minimum_required(VERSION 2.6)
+#-----------------------------------------------------------------------------
+cmake_minimum_required(VERSION 2.8.4)
+#-----------------------------------------------------------------------------
 
-if(COMMAND cmake_policy)
-    cmake_policy(SET CMP0003 NEW)
-endif(COMMAND cmake_policy)
+#-----------------------------------------------------------------------------
+# See http://cmake.org/cmake/help/cmake-2-8-docs.html#section_Policies for details
+#-----------------------------------------------------------------------------
+if(POLICY CMP0017)
+  cmake_policy(SET CMP0017 OLD)
+endif()
 
-set(projName "ScarSegmenter")
-project(${projName})
+#-----------------------------------------------------------------------------
+# Module name
+#   - Usually identique to the directory name)
+#   - You shouldn't call 'project(...)'. See SlicerConfig.cmake for more details.
+#-----------------------------------------------------------------------------
+set(EXTENSION_NAME ScarSegmenter)
+
+#-----------------------------------------------------------------------------
+# Extension metadata
+#-----------------------------------------------------------------------------
+set(EXTENSION_HOMEPAGE "http://www.na-mic.org/Wiki/index.php/Projects:AFibSegmentationRegistration#Registration")
+set(EXTENSION_CATEGORY "Examples")
+set(EXTENSION_ICONURL "http://viewvc.slicer.org/viewvc.cgi/Slicer4/trunk/Extensions/Testing/CLIExtensionTemplate/CLIExtensionTemplate.png?revision=19437&view=co")
+set(EXTENSION_STATUS "Beta")
+set(EXTENSION_CONTRIBUTORS "LiangJia Zhu (Georgia Tech), Yi Gao (BWH), Josh Cates (Utah), Alan Morris (Utah), Danny Perry (Utah), Greg Gardner (Utah), Rob MacLeod (Utah), Allen Tannenbaum (Boston Univ) ")
+set(EXTENSION_DESCRIPTION "This is an module performing the scar segmentation")
+set(EXTENSION_SCREENSHOTURLS "http://www.na-mic.org/Wiki/images/2/28/AFibLongitudinalRegistration-txt.png")
+set(EXTENSION_ACKNOWLEDGEMENTS "This work was supported by Na-mic, NAC, ...")
+set(EXTENSION_MAJOR_VERSION 0)
+set(EXTENSION_MINOR_VERSION 1)
+set(EXTENSION_PATCH_VERSION 0)
 
 
-# # boost
-# find_path(BOOST_PATH /boost/shared_ptr.hpp $ENV{BOOST_PATH})
-# if(NOT BOOST_PATH)
-#    message(FATAL_ERROR "Please enter the path of boost")
-# endif(NOT BOOST_PATH)
+#-----------------------------------------------------------------------------
+# Prerequisites
+#-----------------------------------------------------------------------------
+if(NOT Slicer_SOURCE_DIR)
+  find_package(Slicer REQUIRED)
 
-# include_directories(${BOOST_PATH})
+  # Additional C/CXX flags - Should be defined before including Slicer_USE_FILE
+  #set(ADDITIONAL_C_FLAGS "" CACHE STRING "Additional ${EXTENSION_NAME} C Flags")
+  #set(ADDITIONAL_CXX_FLAGS "" CACHE STRING "Additional ${EXTENSION_NAME} CXX Flags")
+
+  include(${Slicer_USE_FILE})
+
+  set(EXTENSION_DEPENDS NA) # Specified as a space separated list or 'NA' if any
+  set(EXTENSION_LICENSE_FILE ${Slicer_LICENSE_FILE})
+  set(EXTENSION_README_FILE ${Slicer_README_FILE})
+  set(EXTENSION_LICENSE_SHORT_DESCRIPTION ${Slicer_LICENSE_SHORT_DESCRIPTION})
+
+  #include(SlicerEnableExtensionTesting)
+endif()
+
+# Configure XML description
+configure_file(
+  ${EXTENSION_NAME}.xml.in
+  ${CMAKE_CURRENT_BINARY_DIR}/${EXTENSION_NAME}.xml
+  @ONLY
+  )
+
+# Add module sub libraries
+set(cli_module_export_directive "Q_SLICER_QTMODULES_LOADABLEEXTENSIONTEMPLATE_EXPORT")
+
+# Additional includes
+#set(cli_module_include_directories)
+
+# Additional source files
+#set(cli_module_SRCS)
+
+# Additional Target libraries
+set(cli_module_target_libraries ${ITK_LIBRARIES})
 
 
-
+# I added these for local headers and libs. (LiangJia Zhu)
+#set(headerAndLibDir
+#    ${PROJECT_SOURCE_DIR}
+#    ${PROJECT_SOURCE_DIR}/lib)
 #
-# Find Slicer3. This will locate all the components needed to build modules 
-# for Slicer3.
-#
-find_package(Slicer3 REQUIRED)
-if (Slicer3_FOUND)
-    include(${Slicer3_USE_FILE})
-else (Slicer3_FOUND)
-    message(ERROR "Cannot build without a Slicer3 build tree or a Slicer3 installation. Please set Slicer3_DIR. If using a Slicer3 build, Slicer3_DIR needs to be set to the root of the build tree of Slicer3.  If using an installation of Slicer3, Slicer3_DIR needs to be set to <SlicerInstallation>/lib/Slicer3.")
-endif (Slicer3_FOUND)
+#include_directories(${headerAndLibDir})
+# I added these for local headers and libs. (LiangJia Zhu). done
 
 
-set(seg_SRC ScarSegmenter.cxx)
-GENERATECLP(seg_SRC ScarSegmenter.xml)
-add_executable( ScarSegmenterModule ${seg_SRC})
-target_link_libraries( ScarSegmenterModule ITKCommon ITKNumerics ITKBasicFilters ITKIO ITKStatistics itkvnl)
+#-----------------------------------------------------------------------------
+# Build
+#-----------------------------------------------------------------------------
+slicerMacroBuildCLI(
+  NAME ${EXTENSION_NAME}
+  #LOGO_HEADER ${Slicer_SOURCE_DIR}/Resources/NAMICLogo.h
+  TARGET_LIBRARIES ${cli_module_target_libraries}
+  ADDITIONAL_SRCS
+    SFLS.h
+    SFLSSegmentor3D.h
+    SFLSSegmentor3D.txx
+    utilities.hxx
+    wallSegmenter3D.h
+    wallSegmenter3D.txx
+    localChanVeseWallSegmenter3D.h
+    localChanVeseWallSegmenter3D.txx
+  #INCLUDE_DIRECTORIES ${cli_module_include_directories}
+  ADDITIONAL_SRCS ${cli_module_SRCS}
+  #EXECUTABLE_ONLY
+  )
 
+# #-----------------------------------------------------------------------------
+# # Testing
+# #-----------------------------------------------------------------------------
+# if(BUILD_TESTING)
+#   add_subdirectory(Testing)
+# endif()
 
+#-----------------------------------------------------------------------------
+# Generate extension description file '<EXTENSION_NAME>.s4ext'
+#-----------------------------------------------------------------------------
+#if(NOT Slicer_SOURCE_DIR)
+#  include(SlicerFunctionGenerateExtensionDescription)
+#  slicerFunctionGenerateExtensionDescription(
+#    EXTENSION_NAME ${EXTENSION_NAME}
+#    EXTENSION_CATEGORY ${EXTENSION_CATEGORY}
+#    EXTENSION_ICONURL ${EXTENSION_ICONURL}
+#    EXTENSION_STATUS ${EXTENSION_STATUS}
+#   EXTENSION_HOMEPAGE ${EXTENSION_HOMEPAGE}
+#    EXTENSION_CONTRIBUTORS ${EXTENSION_CONTRIBUTORS}
+#    EXTENSION_DESCRIPTION ${EXTENSION_DESCRIPTION}
+#    EXTENSION_SCREENSHOTURLS ${EXTENSION_SCREENSHOTURLS}
+#   EXTENSION_DEPENDS ${EXTENSION_DEPENDS}
+#    DESTINATION_DIR ${CMAKE_CURRENT_BINARY_DIR}
+#    SLICER_WC_REVISION ${Slicer_WC_REVISION}
+#    SLICER_WC_ROOT ${Slicer_WC_ROOT}
+#    )
+#endif()
 
-#
-# Install into a local plugins directory
-#
-set(TARGETS ScarSegmenterModule)
-foreach(targ ${TARGETS})
-slicer3_set_plugins_output_path(${targ})
-endforeach(targ ${TARGETS})
-slicer3_install_plugins(${TARGETS})
-
-
-##
-# build corresponding console exe for debug
-#option(build_ScarSegmenter "build build_ScarSegmenter?" ON)
-#if (build_ScarSegmenter)
-#    set(cexx ScarSegmenterConsole)
-#    add_executable(${cexx} ${cexx}.cxx)
-#    target_link_libraries(${cexx}  ITKCommon ITKNumerics ITKBasicFilters ITKIO ITKStatistics itkvnl)
-#endif (build_ScarSegmenter)
-
+# #-----------------------------------------------------------------------------
+# # Packaging
+# #-----------------------------------------------------------------------------
+# if(NOT Slicer_SOURCE_DIR)
+#   include(${Slicer_EXTENSION_CPACK})
+# endif()
 

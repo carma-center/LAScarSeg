@@ -21,7 +21,7 @@
 
 int main(int argc, char** argv)
 {
-    PARSE_ARGS;
+  PARSE_ARGS;
 
   unsigned long numiter = 100;
 

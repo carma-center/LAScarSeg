@@ -1,0 +1,4 @@
+# Target labels
+ ScarSegmenter
+# Source files and their labels
+/home/zhulj/Software/Slicer4/Slicer4-SuperBuild-Debug/SlicerExecutionModel/CMake/SEMCommandLineLibraryWrapper.cxx
