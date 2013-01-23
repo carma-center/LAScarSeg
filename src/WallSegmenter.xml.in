@@ -41,19 +41,11 @@
     </image>
 
     <image type="label">
-      <name>wallImageFileName</name>
-      <label>Wall Label Image</label>
-      <channel>input</channel>
-      <index>2</index>
-      <description>Label image for wall</description>
-    </image>
-
-    <image type="label">
       <name>segmentedImageFileName</name>
-      <label>Output Volume</label>
+      <label>Output Wall Segmentation</label>
       <channel>output</channel>
-      <description>Segmented image</description>
-      <index>3</index>
+      <description>Output Wall Segmentation</description>
+      <index>2</index>
     </image>
   </parameters>
 

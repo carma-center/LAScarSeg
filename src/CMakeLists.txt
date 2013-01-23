@@ -59,6 +59,20 @@ configure_file(
   @ONLY
   )
 
+# Configure XML description
+configure_file(
+  WallSegmenter.xml.in
+  ${CMAKE_CURRENT_BINARY_DIR}/WallSegmenter.xml
+  @ONLY
+  )
+
+# Configure XML description
+configure_file(
+  WallAndScarSegmenter.xml.in
+  ${CMAKE_CURRENT_BINARY_DIR}/WallAndScarSegmenter.xml
+  @ONLY
+  )
+
 # Add module sub libraries
 set(cli_module_export_directive "Q_SLICER_QTMODULES_LOADABLEEXTENSIONTEMPLATE_EXPORT")
 
@@ -97,6 +111,24 @@ slicerMacroBuildCLI(
     wallSegmenter3D.txx
     localChanVeseWallSegmenter3D.h
     localChanVeseWallSegmenter3D.txx
+  #INCLUDE_DIRECTORIES ${cli_module_include_directories}
+  ADDITIONAL_SRCS ${cli_module_SRCS}
+  #EXECUTABLE_ONLY
+  )
+
+slicerMacroBuildCLI(
+  NAME WallSegmenter
+  #LOGO_HEADER ${Slicer_SOURCE_DIR}/Resources/NAMICLogo.h
+  TARGET_LIBRARIES ${cli_module_target_libraries}
+  #INCLUDE_DIRECTORIES ${cli_module_include_directories}
+  ADDITIONAL_SRCS ${cli_module_SRCS}
+  #EXECUTABLE_ONLY
+  )
+
+slicerMacroBuildCLI(
+  NAME WallAndScarSegmenter
+  #LOGO_HEADER ${Slicer_SOURCE_DIR}/Resources/NAMICLogo.h
+  TARGET_LIBRARIES ${cli_module_target_libraries}
   #INCLUDE_DIRECTORIES ${cli_module_include_directories}
   ADDITIONAL_SRCS ${cli_module_SRCS}
   #EXECUTABLE_ONLY
