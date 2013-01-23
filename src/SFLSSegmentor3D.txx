@@ -1560,7 +1560,7 @@ CSFLSSegmentor3D< TPixel >
     }
   */
 
-  assert(!isnan(tmp));
+  assert(!std::isnan(tmp));
 
   if (xok)
     {
@@ -1634,7 +1634,7 @@ CSFLSSegmentor3D< TPixel >
    * kappa*\|\nabla \Psi\| where \Psi is the level set function.
    */
 
-  assert(!isnan(k));
+  assert(!std::isnan(k));
 
   return k;
 }
