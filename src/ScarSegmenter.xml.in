@@ -26,13 +26,13 @@
     <description>Input/output parameters</description>
     <image>
       <name>originalImageFileName</name>
-      <longflag>originalImageFileName</longflag> 
       <label>Original Image</label>
       <channel>input</channel>
       <description>Original image to be segmented</description>
+      <index>0</index>
     </image>
 
-    <image>
+    <image type="label">
       <name>labelImageFileName</name>
       <label>Endo-cardiac Label Image</label>
       <channel>input</channel>
@@ -42,10 +42,10 @@
 
     <image type="label">
       <name>segmentedImageFileName</name>
-      <longflag>segmentedImageFileName</longflag> 
       <label>Output Volume</label>
       <channel>output</channel>
       <description>Segmented image</description>
+      <index>2</index>
     </image>
   </parameters>
 
